@@ -1,0 +1,80 @@
+[gd_scene load_steps=12 format=3 uid="uid://d3d5dny88xjiq"]
+
+[ext_resource type="Script" uid="uid://76b81k7swuje" path="res://background.gd" id="1_hjbqt"]
+[ext_resource type="Script" uid="uid://7x6h2kyirdu" path="res://Char.gd" id="2_inc8l"]
+[ext_resource type="Texture2D" uid="uid://pu73l0jhrer5" path="res://Assets/Audio/Music/icon.svg" id="3_dgayv"]
+
+[sub_resource type="Gradient" id="Gradient_8upex"]
+colors = PackedColorArray(0.27058825, 0, 1, 1, 1, 0.60784316, 0.4745098, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8bc0h"]
+gradient = SubResource("Gradient_8upex")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_y4uru"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kk4uh"]
+gradient = SubResource("Gradient_y4uru")
+fill_from = Vector2(0, 0.19158879)
+fill_to = Vector2(0.014018691, 0.9766355)
+
+[sub_resource type="Gradient" id="Gradient_xr7dr"]
+offsets = PackedFloat32Array(0.50666666, 0.87333333)
+colors = PackedColorArray(0, 0, 0.4509804, 0, 0.7023712, 0.6599273, 0.60867316, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_v7utb"]
+noise_type = 4
+frequency = 0.012
+offset = Vector3(-181.82, 0, 0)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_25bct"]
+noise = SubResource("FastNoiseLite_v7utb")
+color_ramp = SubResource("Gradient_xr7dr")
+seamless = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_26xp2"]
+radius = 31.016125
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+script = ExtResource("1_hjbqt")
+
+[node name="Sky" type="TextureRect" parent="Background"]
+offset_right = 1153.0
+offset_bottom = 645.0
+texture = SubResource("GradientTexture2D_8bc0h")
+
+[node name="Ocean" type="ColorRect" parent="Background"]
+offset_top = 584.0
+offset_right = 1152.0
+offset_bottom = 646.0
+color = Color(0.5254902, 0.7254902, 1, 1)
+
+[node name="Clouds" type="Node2D" parent="Background"]
+
+[node name="TextureRect" type="TextureRect" parent="Background/Clouds"]
+clip_children = 1
+offset_right = 1151.0
+offset_bottom = 584.0
+texture = SubResource("GradientTexture2D_kk4uh")
+
+[node name="Clouds" type="TextureRect" parent="Background/Clouds/TextureRect"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 586.0
+texture = SubResource("NoiseTexture2D_25bct")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(384, 220)
+script = ExtResource("2_inc8l")
+
+[node name="Icon" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(0, -30)
+scale = Vector2(0.46875, 0.46875)
+texture = ExtResource("3_dgayv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -31)
+shape = SubResource("CircleShape2D_26xp2")

@@ -1,6 +1,5 @@
-[gd_scene load_steps=24 format=3 uid="uid://d3d5dny88xjiq"]
+[gd_scene load_steps=26 format=3 uid="uid://d3d5dny88xjiq"]
 
-[ext_resource type="Script" uid="uid://76b81k7swuje" path="res://background.gd" id="1_hjbqt"]
 [ext_resource type="Script" uid="uid://7x6h2kyirdu" path="res://Char.gd" id="2_inc8l"]
 [ext_resource type="Texture2D" uid="uid://pu73l0jhrer5" path="res://Assets/Audio/Music/icon.svg" id="3_dgayv"]
 
@@ -82,13 +81,63 @@ color_ramp = SubResource("Gradient_xr7dr")
 seamless = true
 seamless_blend_skirt = 1.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_26xp2"]
-radius = 31.016125
+[sub_resource type="CircleShape2D" id="CircleShape2D_hjbqt"]
+radius = 54.00926
+
+[sub_resource type="Animation" id="Animation_ljkaj"]
+resource_name = "new_animation"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/Clouds/TextureRect/Clouds:texture:noise:offset")
+tracks/0/interp = 2
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6666667, 0.96666664),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(512, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CharacterBody2D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.96666664),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_explode"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_hjbqt"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background/Clouds/TextureRect/Clouds:texture:noise:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_inc8l"]
+_data = {
+&"RESET": SubResource("Animation_hjbqt"),
+&"new_animation": SubResource("Animation_ljkaj")
+}
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Background" type="Node2D" parent="."]
-script = ExtResource("1_hjbqt")
 
 [node name="Sky" type="TextureRect" parent="Background"]
 offset_right = 1153.0
@@ -96,6 +145,7 @@ offset_bottom = 645.0
 texture = SubResource("GradientTexture2D_8bc0h")
 
 [node name="Ocean" type="Node2D" parent="Background"]
+position = Vector2(1153, -8)
 
 [node name="Ocean" type="TextureRect" parent="Background/Ocean"]
 offset_top = 525.0
@@ -132,6 +182,44 @@ offset_right = 1153.0
 offset_bottom = 128.0
 texture = SubResource("NoiseTexture2D_o8sa3")
 
+[node name="Ocean2" type="Node2D" parent="Background"]
+position = Vector2(0, -7)
+
+[node name="Ocean" type="TextureRect" parent="Background/Ocean2"]
+offset_top = 525.0
+offset_right = 1152.0
+offset_bottom = 653.0
+texture = SubResource("NoiseTexture2D_dgayv")
+
+[node name="GradientProfound" type="TextureRect" parent="Background/Ocean2"]
+offset_top = 525.0
+offset_right = 1155.0
+offset_bottom = 646.0
+scale = Vector2(1, 1.0400013)
+texture = SubResource("GradientTexture2D_y4uru")
+metadata/_edit_group_ = true
+
+[node name="GradientReflection" type="TextureRect" parent="Background/Ocean2"]
+offset_top = 525.0
+offset_right = 1155.0
+offset_bottom = 646.0
+scale = Vector2(1, 1.0400013)
+texture = SubResource("GradientTexture2D_xr7dr")
+metadata/_edit_group_ = true
+
+[node name="WavesMask" type="TextureRect" parent="Background/Ocean2"]
+clip_children = 1
+offset_top = 525.0
+offset_right = 1153.0
+offset_bottom = 653.0
+texture = SubResource("GradientTexture2D_25bct")
+
+[node name="Waves" type="TextureRect" parent="Background/Ocean2/WavesMask"]
+layout_mode = 0
+offset_right = 1153.0
+offset_bottom = 128.0
+texture = SubResource("NoiseTexture2D_o8sa3")
+
 [node name="Clouds" type="Node2D" parent="Background"]
 
 [node name="TextureRect" type="TextureRect" parent="Background/Clouds"]
@@ -150,11 +238,32 @@ texture = SubResource("NoiseTexture2D_25bct")
 position = Vector2(384, 220)
 script = ExtResource("2_inc8l")
 
-[node name="Icon" type="Sprite2D" parent="CharacterBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -50)
+shape = SubResource("CircleShape2D_hjbqt")
+
+[node name="Sprite" type="Node2D" parent="CharacterBody2D"]
+scale = Vector2(1.565, 1.565)
+
+[node name="Icon2" type="Sprite2D" parent="CharacterBody2D/Sprite"]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(2, -28)
+scale = Vector2(0.46875, 0.46875)
+texture = ExtResource("3_dgayv")
+
+[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D/Sprite"]
+clip_children = 1
+polygon = PackedVector2Array(-3, -3, 24, -10, 24, -47, -12, -54, -26, -20)
+uv = PackedVector2Array(-3, -3, 37, -34, 9, -69, -40, -55, -34, -17)
+
+[node name="Icon" type="Sprite2D" parent="CharacterBody2D/Sprite/Polygon2D"]
 position = Vector2(0, -30)
 scale = Vector2(0.46875, 0.46875)
 texture = ExtResource("3_dgayv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(0, -31)
-shape = SubResource("CircleShape2D_26xp2")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_inc8l")
+}
+autoplay = "new_animation"
+speed_scale = 0.21

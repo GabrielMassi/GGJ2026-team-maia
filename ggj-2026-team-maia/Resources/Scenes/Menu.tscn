@@ -1,5 +1,3 @@
 [gd_scene format=3 uid="uid://cb3rme1x5vxl"]
 
 [node name="Node2D" type="Node2D"]
-
-[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]

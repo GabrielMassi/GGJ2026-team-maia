@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3v28abm4qpgf"]
+
+[ext_resource type="Texture2D" uid="uid://wpsnyyx8sixn" path="res://Assets/Sprites/player_PLACEHOLDER.png" id="1_6b2fl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bq0jc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6b2fl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oafyf"]
+size = Vector2(25, 54)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.13, 0.13)
+sprite_frames = SubResource("SpriteFrames_bq0jc")
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+position = Vector2(5.5, 0)
+shape = SubResource("RectangleShape2D_oafyf")

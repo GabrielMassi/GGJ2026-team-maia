@@ -1,0 +1,81 @@
+[gd_scene load_steps=13 format=3 uid="uid://bu75doba07e6o"]
+
+[sub_resource type="Gradient" id="Gradient_hjbqt"]
+colors = PackedColorArray(0.3647059, 0.2509804, 0.40392157, 1, 0.19153759, 0.21840486, 0.40508336, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_inc8l"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dgayv"]
+height = 128
+noise = SubResource("FastNoiseLite_inc8l")
+color_ramp = SubResource("Gradient_hjbqt")
+
+[sub_resource type="Gradient" id="Gradient_8bc0h"]
+offsets = PackedFloat32Array(0, 0.74)
+colors = PackedColorArray(0, 9.024516e-09, 0.07746076, 0.9647059, 0.0178413, 1.848221e-05, 0.97961086, 0.18431373)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_y4uru"]
+gradient = SubResource("Gradient_8bc0h")
+fill_to = Vector2(0, 1)
+
+[sub_resource type="Gradient" id="Gradient_kk4uh"]
+offsets = PackedFloat32Array(0.006666667, 1)
+colors = PackedColorArray(1, 0.60784316, 0.4745098, 0.7019608, 0, 0, 0.6666667, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xr7dr"]
+gradient = SubResource("Gradient_kk4uh")
+fill_to = Vector2(0, 0.46728972)
+
+[sub_resource type="Gradient" id="Gradient_v7utb"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_25bct"]
+gradient = SubResource("Gradient_v7utb")
+fill_to = Vector2(0, 0.9859813)
+
+[sub_resource type="Gradient" id="Gradient_26xp2"]
+colors = PackedColorArray(0, 0, 0, 0, 0.22550112, 0.5248549, 1, 0.4862745)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_senqg"]
+noise_type = 2
+frequency = 0.0134
+fractal_type = 3
+fractal_weighted_strength = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_o8sa3"]
+height = 128
+noise = SubResource("FastNoiseLite_senqg")
+color_ramp = SubResource("Gradient_26xp2")
+
+[node name="Ocean2" type="Node2D"]
+
+[node name="Ocean" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 128.0
+texture = SubResource("NoiseTexture2D_dgayv")
+
+[node name="GradientProfound" type="TextureRect" parent="."]
+offset_right = 1155.0
+offset_bottom = 121.0
+scale = Vector2(1, 1.0400013)
+texture = SubResource("GradientTexture2D_y4uru")
+metadata/_edit_group_ = true
+
+[node name="GradientReflection" type="TextureRect" parent="."]
+offset_right = 1155.0
+offset_bottom = 121.0
+scale = Vector2(1, 1.0400013)
+texture = SubResource("GradientTexture2D_xr7dr")
+metadata/_edit_group_ = true
+
+[node name="WavesMask" type="TextureRect" parent="."]
+clip_children = 1
+offset_right = 1153.0
+offset_bottom = 128.0
+texture = SubResource("GradientTexture2D_25bct")
+
+[node name="Waves" type="TextureRect" parent="WavesMask"]
+layout_mode = 0
+offset_right = 1153.0
+offset_bottom = 128.0
+texture = SubResource("NoiseTexture2D_o8sa3")

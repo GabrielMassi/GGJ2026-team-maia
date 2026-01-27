@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg7ceg3iw7qfp"]
+
+[ext_resource type="Texture2D" uid="uid://85hl8nxbk8cj" path="res://Assets/Textures/grassy_cobblestone/grassy_cobblestone_disp_4k.jpg" id="1_oiv1o"]
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_inc8l"]
+
+[node name="Road" type="Node2D"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_top = 479.0
+offset_right = 2309.0
+offset_bottom = 602.0
+texture = SubResource("CanvasTexture_inc8l")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_top = 518.0
+offset_right = 2309.0
+offset_bottom = 522.0
+texture = ExtResource("1_oiv1o")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+offset_top = 559.0
+offset_right = 2309.0
+offset_bottom = 563.0
+texture = ExtResource("1_oiv1o")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(1153, 479, 1152, 602)
+default_color = Color(0, 0, 0, 1)

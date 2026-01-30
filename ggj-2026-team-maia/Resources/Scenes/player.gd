@@ -2,23 +2,17 @@ extends CharacterBody2D
 
 
 const SPEED = 76.0
-var lane = 2
+var lanes = [459, 535, 611]
+var current_lane = 1;
 
 func _process(delta):
 
+	if Input.is_action_just_pressed("up") and current_lane != 0:
+		current_lane -= 1;
+		position.y = lanes[current_lane]
 
-	var direction = Input.get_axis("down", "up")
-
-	if position.y == 459 or position.y == 535 or position.y == 611:
-		velocity.y = 0
-
-	#Do jeito que tá agora, o personagem simplesmente teleporta pra outra
-	#lane, TODO > criar uma animação pra que a troca de lane seja continua
-	if direction > 0 and lane != 1 and velocity.y == 0:		
-		position.y += direction * SPEED
-		lane-=1
-	elif direction < 0 and lane !=3 and velocity.y == 0:
-		position.y += direction * SPEED
-		lane+=1
+	if Input.is_action_just_pressed("down") and current_lane != 2:
+		current_lane += 1;
+		position.y = lanes[current_lane]
 
 	move_and_slide()

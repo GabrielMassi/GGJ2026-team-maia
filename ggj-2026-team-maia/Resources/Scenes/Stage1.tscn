@@ -1,10 +1,49 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3d5dny88xjiq"]
+[gd_scene load_steps=20 format=3 uid="uid://d3d5dny88xjiq"]
 
 [ext_resource type="PackedScene" uid="uid://bu75doba07e6o" path="res://Resources/Scenes/ocean.tscn" id="1_ljkaj"]
 [ext_resource type="Texture2D" uid="uid://obabuvaw12f" path="res://Assets/Textures/grassy_cobblestone/grassy_cobblestone_rough_4k.jpg" id="2_hjbqt"]
 [ext_resource type="Texture2D" uid="uid://85hl8nxbk8cj" path="res://Assets/Textures/grassy_cobblestone/grassy_cobblestone_disp_4k.jpg" id="3_hjbqt"]
 [ext_resource type="PackedScene" uid="uid://b3v28abm4qpgf" path="res://Resources/Scenes/player.tscn" id="4_dgayv"]
+[ext_resource type="PackedScene" uid="uid://cet6chtfbn8bo" path="res://Resources/Scenes/enemy.tscn" id="5_8bc0h"]
 [ext_resource type="Script" uid="uid://sjpqhow84gvk" path="res://Resources/Scenes/player.gd" id="5_8upex"]
+
+[sub_resource type="Animation" id="Animation_dgayv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 522)]
+}
+
+[sub_resource type="Animation" id="Animation_inc8l"]
+resource_name = "loop"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 522), Vector2(-1157, 522)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8upex"]
+_data = {
+&"RESET": SubResource("Animation_dgayv"),
+&"loop": SubResource("Animation_inc8l")
+}
 
 [sub_resource type="Gradient" id="Gradient_8upex"]
 colors = PackedColorArray(0.27058825, 0, 1, 1, 1, 0.60784316, 0.4745098, 1)
@@ -74,78 +113,16 @@ _data = {
 &"new_animation": SubResource("Animation_ljkaj")
 }
 
-[sub_resource type="Animation" id="Animation_dgayv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 522)]
-}
-
-[sub_resource type="Animation" id="Animation_inc8l"]
-resource_name = "loop"
-length = 4.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 522), Vector2(-1157, 522)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_8upex"]
-_data = {
-&"RESET": SubResource("Animation_dgayv"),
-&"loop": SubResource("Animation_inc8l")
-}
-
 [node name="Node2D" type="Node2D"]
 
-[node name="Background" type="Node2D" parent="."]
-
-[node name="Sky" type="TextureRect" parent="Background"]
-offset_right = 1153.0
-offset_bottom = 645.0
-texture = SubResource("GradientTexture2D_8bc0h")
-
-[node name="Ocean" parent="Background" instance=ExtResource("1_ljkaj")]
-position = Vector2(0, 295)
-
-[node name="Clouds" type="Node2D" parent="Background"]
-
-[node name="TextureRect" type="TextureRect" parent="Background/Clouds"]
-clip_children = 1
-offset_right = 1151.0
-offset_bottom = 584.0
-texture = SubResource("GradientTexture2D_kk4uh")
-
-[node name="Clouds" type="TextureRect" parent="Background/Clouds/TextureRect"]
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 586.0
-texture = SubResource("NoiseTexture2D_25bct")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_inc8l")
-}
-autoplay = "new_animation"
-speed_scale = 0.21
+[node name="Player" parent="." instance=ExtResource("4_dgayv")]
+z_index = 5
+position = Vector2(200, 535)
+collision_mask = 2
+script = ExtResource("5_8upex")
 
 [node name="Road" type="Node2D" parent="."]
+z_index = 1
 position = Vector2(0, 522)
 
 [node name="TextureRect" type="TextureRect" parent="Road"]
@@ -185,6 +162,38 @@ libraries = {
 }
 autoplay = "loop"
 
-[node name="Player" parent="." instance=ExtResource("4_dgayv")]
-position = Vector2(149, 535)
-script = ExtResource("5_8upex")
+[node name="Enemy" parent="Road" instance=ExtResource("5_8bc0h")]
+z_index = 3
+position = Vector2(791, 13)
+collision_mask = 2
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Sky" type="TextureRect" parent="Background"]
+offset_right = 1153.0
+offset_bottom = 645.0
+texture = SubResource("GradientTexture2D_8bc0h")
+
+[node name="Ocean" parent="Background" instance=ExtResource("1_ljkaj")]
+position = Vector2(0, 295)
+
+[node name="Clouds" type="Node2D" parent="Background"]
+
+[node name="TextureRect" type="TextureRect" parent="Background/Clouds"]
+clip_children = 1
+offset_right = 1151.0
+offset_bottom = 584.0
+texture = SubResource("GradientTexture2D_kk4uh")
+
+[node name="Clouds" type="TextureRect" parent="Background/Clouds/TextureRect"]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 586.0
+texture = SubResource("NoiseTexture2D_25bct")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_inc8l")
+}
+autoplay = "new_animation"
+speed_scale = 0.21

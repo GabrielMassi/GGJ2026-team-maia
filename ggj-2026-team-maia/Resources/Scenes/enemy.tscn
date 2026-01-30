@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://cet6chtfbn8bo"]
+
+[ext_resource type="PackedScene" uid="uid://cjx3go2wyf5a5" path="res://Resources/Scenes/killzone.tscn" id="1_viuc0"]
+[ext_resource type="Texture2D" uid="uid://crncv5wqo8n1" path="res://Assets/Sprites/enemy_PLACEHOLDER.png" id="2_44cia"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehqf1"]
+size = Vector2(38, 54.8125)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dhmjm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_44cia")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="AnimatableBody2D"]
+
+[node name="Killzone" parent="." instance=ExtResource("1_viuc0")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+shape = SubResource("RectangleShape2D_ehqf1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.14976265, 0.14976269)
+sprite_frames = SubResource("SpriteFrames_dhmjm")

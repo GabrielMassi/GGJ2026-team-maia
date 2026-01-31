@@ -1,49 +1,13 @@
-[gd_scene load_steps=20 format=3 uid="uid://d3d5dny88xjiq"]
+[gd_scene load_steps=18 format=3 uid="uid://d3d5dny88xjiq"]
 
 [ext_resource type="PackedScene" uid="uid://bu75doba07e6o" path="res://Resources/Scenes/ocean.tscn" id="1_ljkaj"]
 [ext_resource type="Texture2D" uid="uid://obabuvaw12f" path="res://Assets/Textures/grassy_cobblestone/grassy_cobblestone_rough_4k.jpg" id="2_hjbqt"]
+[ext_resource type="Script" uid="uid://bixbbr1uu1ixk" path="res://Scripts/road.gd" id="3_8bc0h"]
 [ext_resource type="Texture2D" uid="uid://85hl8nxbk8cj" path="res://Assets/Textures/grassy_cobblestone/grassy_cobblestone_disp_4k.jpg" id="3_hjbqt"]
 [ext_resource type="PackedScene" uid="uid://b3v28abm4qpgf" path="res://Resources/Scenes/player.tscn" id="4_dgayv"]
-[ext_resource type="PackedScene" uid="uid://cet6chtfbn8bo" path="res://Resources/Scenes/enemy.tscn" id="5_8bc0h"]
-[ext_resource type="Script" uid="uid://sjpqhow84gvk" path="res://Resources/Scenes/player.gd" id="5_8upex"]
-
-[sub_resource type="Animation" id="Animation_dgayv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 522)]
-}
-
-[sub_resource type="Animation" id="Animation_inc8l"]
-resource_name = "loop"
-length = 4.0
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(0, 522), Vector2(-1157, 522)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_8upex"]
-_data = {
-&"RESET": SubResource("Animation_dgayv"),
-&"loop": SubResource("Animation_inc8l")
-}
+[ext_resource type="Script" uid="uid://sjpqhow84gvk" path="res://Scripts/player.gd" id="5_8upex"]
+[ext_resource type="Script" uid="uid://76b81k7swuje" path="res://background.gd" id="6_y4uru"]
+[ext_resource type="Script" uid="uid://c0s131542f8x8" path="res://Scripts/enemy_spawner_controller.gd" id="7_8bc0h"]
 
 [sub_resource type="Gradient" id="Gradient_8upex"]
 colors = PackedColorArray(0.27058825, 0, 1, 1, 1, 0.60784316, 0.4745098, 1)
@@ -76,64 +40,79 @@ color_ramp = SubResource("Gradient_xr7dr")
 seamless = true
 seamless_blend_skirt = 1.0
 
-[sub_resource type="Animation" id="Animation_hjbqt"]
-length = 0.001
-tracks/0/type = "value"
+[sub_resource type="Animation" id="Animation_8upex"]
+resource_name = "spawner"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Background/Clouds/TextureRect/Clouds:texture:noise:offset")
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
+"times": PackedFloat32Array(1.0333333, 2.1333334, 3.5333333, 6.0666666, 7.8333335, 8.066667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"values": [{
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}, {
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}, {
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}, {
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}, {
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}, {
+"args": ["default", 0],
+"method": &"spawnEnemy"
+}]
 }
 
-[sub_resource type="Animation" id="Animation_ljkaj"]
-resource_name = "new_animation"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Background/Clouds/TextureRect/Clouds:texture:noise:offset")
-tracks/0/interp = 2
-tracks/0/loop_wrap = false
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6666667, 0.96666664),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector3(0, 0, 0), Vector3(512, 0, 0), Vector3(0, 0, 0)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_inc8l"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8bc0h"]
 _data = {
-&"RESET": SubResource("Animation_hjbqt"),
-&"new_animation": SubResource("Animation_ljkaj")
+&"spawner": SubResource("Animation_8upex")
 }
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("4_dgayv")]
+[node name="Player" parent="." groups=["player"] instance=ExtResource("4_dgayv")]
 z_index = 5
 position = Vector2(200, 535)
 collision_mask = 2
 script = ExtResource("5_8upex")
+SPEED = 200.0
 
-[node name="Road" type="Node2D" parent="."]
+[node name="Road" type="Node2D" parent="." node_paths=PackedStringArray("player")]
 z_index = 1
 position = Vector2(0, 522)
+script = ExtResource("3_8bc0h")
+player = NodePath("../Player")
 
-[node name="TextureRect" type="TextureRect" parent="Road"]
+[node name="Road1" type="TextureRect" parent="Road"]
 offset_top = -99.0
-offset_right = 2309.0
+offset_right = 1163.0
+offset_bottom = 123.0
+texture = ExtResource("2_hjbqt")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Road2" type="TextureRect" parent="Road"]
+offset_left = 1153.0
+offset_top = -99.0
+offset_right = 2316.0
 offset_bottom = 123.0
 texture = ExtResource("2_hjbqt")
 expand_mode = 1
 stretch_mode = 6
 
 [node name="TextureRect2" type="TextureRect" parent="Road"]
+visible = false
 offset_left = -0.48657227
 offset_top = -27.0
 offset_right = 2308.5134
@@ -143,6 +122,7 @@ expand_mode = 1
 stretch_mode = 6
 
 [node name="TextureRect3" type="TextureRect" parent="Road"]
+visible = false
 offset_left = -0.48657227
 offset_top = 47.0
 offset_right = 2308.5134
@@ -156,18 +136,9 @@ position = Vector2(0, -479)
 points = PackedVector2Array(1153, 380, 1152, 602)
 default_color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Road"]
-libraries = {
-&"": SubResource("AnimationLibrary_8upex")
-}
-autoplay = "loop"
-
-[node name="Enemy" parent="Road" instance=ExtResource("5_8bc0h")]
-z_index = 3
-position = Vector2(791, 13)
-collision_mask = 2
-
 [node name="Background" type="Node2D" parent="."]
+script = ExtResource("6_y4uru")
+metadata/_edit_group_ = true
 
 [node name="Sky" type="TextureRect" parent="Background"]
 offset_right = 1153.0
@@ -191,9 +162,22 @@ offset_right = 1152.0
 offset_bottom = 586.0
 texture = SubResource("NoiseTexture2D_25bct")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="EnemySpawnerController" type="Node" parent="."]
+script = ExtResource("7_8bc0h")
+
+[node name="SpawnerTop" type="Node2D" parent="EnemySpawnerController"]
+position = Vector2(1234, 459)
+
+[node name="SpawnerMiddle" type="Node2D" parent="EnemySpawnerController"]
+position = Vector2(1234, 535)
+
+[node name="SpawnerDown" type="Node2D" parent="EnemySpawnerController"]
+position = Vector2(1234, 611)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EnemySpawnerController"]
 libraries = {
-&"": SubResource("AnimationLibrary_inc8l")
+&"": SubResource("AnimationLibrary_8bc0h")
 }
-autoplay = "new_animation"
-speed_scale = 0.21
+autoplay = "spawner"
+
+[connection signal="area_entered" from="Player" to="Player" method="_on_area_entered"]

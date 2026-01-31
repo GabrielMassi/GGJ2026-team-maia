@@ -16,7 +16,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oafyf"]
 size = Vector2(25, 54)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="Area2D"]
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.13, 0.13)

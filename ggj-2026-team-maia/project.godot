@@ -15,6 +15,11 @@ run/main_scene="uid://d3d5dny88xjiq"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://Assets/Audio/Music/icon.svg"
 
+[global_group]
+
+Enemy=""
+player=""
+
 [input]
 
 up={

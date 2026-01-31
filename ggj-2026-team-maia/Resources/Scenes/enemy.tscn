@@ -1,10 +1,10 @@
 [gd_scene load_steps=5 format=3 uid="uid://cet6chtfbn8bo"]
 
-[ext_resource type="PackedScene" uid="uid://cjx3go2wyf5a5" path="res://Resources/Scenes/killzone.tscn" id="1_viuc0"]
+[ext_resource type="Script" uid="uid://45qkxpcihilv" path="res://Scripts/enemy.gd" id="1_viuc0"]
 [ext_resource type="Texture2D" uid="uid://crncv5wqo8n1" path="res://Assets/Sprites/enemy_PLACEHOLDER.png" id="2_44cia"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ehqf1"]
-size = Vector2(38, 54.8125)
+[sub_resource type="CircleShape2D" id="CircleShape2D_101sh"]
+radius = 26.076809
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dhmjm"]
 animations = [{
@@ -17,13 +17,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="AnimatableBody2D"]
+[node name="Enemy" type="Area2D" groups=["Enemy"]]
+z_index = 7
+script = ExtResource("1_viuc0")
 
-[node name="Killzone" parent="." instance=ExtResource("1_viuc0")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
-shape = SubResource("RectangleShape2D_ehqf1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_101sh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.14976265, 0.14976269)
 sprite_frames = SubResource("SpriteFrames_dhmjm")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
